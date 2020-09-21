@@ -1,11 +1,12 @@
 <template>
-  <button @click="action">{{txt}}</button>
+  <button :disabled="disabled" @click="action">{{txt}}</button>
 </template>
 
 <script>
 export default {
   props: {
     txt: String,
+    disabled: Boolean,
   },
   methods: {
     action() {

@@ -4,7 +4,7 @@
   <h1>cuenta: {{state ? 'Activa' : 'Descativada'}}</h1>
   <div v-for="(servicio, index) in servicios" :key="index">{{index + 1}} - {{servicio}}</div>
   <AccionSaldo txt="Aumentar Saldo" @action="increment" />
-  <AccionSaldo txt="Restar Saldo" @action="decrement" />
+  <AccionSaldo :disabled="disabled" txt="Restar Saldo" @action="decrement" />
 </template>
 
 <script>
@@ -16,6 +16,7 @@ export default {
       type: "visa",
       state: true,
       servicios: ["giro", "transferencia", "abono"],
+      disabled: false,
     };
   },
   components: {
@@ -24,8 +25,13 @@ export default {
   methods: {
     increment() {
       this.summary = this.summary + 100;
+      this.disabled = false;
     },
     decrement() {
+      if (this.summary <= 0) {
+        this.disabled = true;
+        return alert("Saldo insuficiente");
+      }
       this.summary = this.summary - 100;
     },
   },
